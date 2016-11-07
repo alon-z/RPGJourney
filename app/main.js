@@ -25,7 +25,7 @@ const Main = () => {
           tabs={true}
           tabBarStyle={styles.tabBarStyle}
         >
-          <Scene key="hometabs" title="Home" icon={TabIcon}
+          <Scene key="hometabs" title="Home" icon={TabIcon} hideNavBar
             onPress={()=> {
               Actions.homepage({type: ActionConst.REFRESH});
             }}>

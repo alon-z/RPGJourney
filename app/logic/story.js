@@ -16,9 +16,11 @@ class Story {
   }
 
   fetch(jsonUrl,func) {
-    fetch('http://192.168.43.105:8080/'+jsonUrl).then((resault) => resault.json())
+    fetch('http://10.0.0.136:8080/'+jsonUrl).then((resault) => resault.json())
     .then((data) => {
       func(data[0])
+    }).catch((error) => {
+        alert("Could not connet to the server");
     });
   }
 

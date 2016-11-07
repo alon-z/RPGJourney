@@ -78,7 +78,7 @@
         "choices": [
           {
             "topText": "Go back",
-            "underText": "It's might be a good idea, thers no way you can cross that river",
+            "underText": "It's might be a good idea",
             "actions": [],
             "next": 1
           },

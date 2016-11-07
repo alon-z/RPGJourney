@@ -3,7 +3,8 @@ import {
   StyleSheet,
   TouchableHighlight,
   Text,
-  View
+  View,
+  Image
 } from 'react-native';
 
 class ChoiceButton extends Component {
@@ -19,29 +20,31 @@ class ChoiceButton extends Component {
       <TouchableHighlight style={styles.choice_button}
         underlayColor='#e6ce99'
         onPress={this.onPress}>
-        <View>
+        <Image source={require('../assets/wood_button.png')} style={styles.backgroundImage}>
           <Text style={styles.topText}>
             {this.props.choice.topText}
           </Text>
           <Text style={styles.bottomText}>
             {this.props.choice.underText}
           </Text>
-        </View>
+        </Image>
       </TouchableHighlight>
     )
   }
 }
 const styles = StyleSheet.create({
   choice_button: {
-    minWidth: 200,
+    minWidth: 400,
     minHeight: 100,
-    maxWidth: 200,
+    maxWidth: 400,
     maxHeight: 100,
-    backgroundColor: '#d7bb7a',
+    backgroundColor: 'rgba(0,0,0, 0)',
     borderRadius:4,
     flex: 1,
-    margin: 5,
-    padding: 5
+    padding: 5,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   topText: {
     fontSize: 20,
@@ -49,7 +52,17 @@ const styles = StyleSheet.create({
   },
   bottomText: {
     fontSize: 17,
-    textAlign: 'left'
+    textAlign: 'center'
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'stretch', // or 'stretch'
+    width: null,
+    height: null,
+    alignSelf: 'stretch',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 });
 
