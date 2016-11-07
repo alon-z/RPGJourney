@@ -1,0 +1,95 @@
+[
+  {
+    "header": "Prolog",
+    "number": 0,
+    "description": "This is a test of the prolog",
+    "events": [
+      {
+        "title": "A fresh start",
+        "description": "You start inside a house.",
+        "choices": [
+          {
+            "topText": "Kill yourself",
+            "underText": "You will die....",
+            "actions": [
+              {"test": "good"}
+            ],
+            "next": 0
+          },
+          {
+            "topText": "Open the door",
+            "underText": "",
+            "actions": [
+              {"test": "good"}
+            ],
+            "next": 1
+          },
+          {
+            "topText": "Kick the door",
+            "underText": "",
+            "actions": [
+              {"test": "good"}
+            ],
+            "next": 1
+          }
+        ]
+      },
+      {
+        "title": "Alone.",
+        "description": "You open the door and you see.\nYou are alone.",
+        "choices": [
+          {
+            "topText": "Go north",
+            "underText": "",
+            "actions": [
+              {"test": "good"}
+            ],
+            "next": 2
+          },
+          {
+            "topText": "Go west",
+            "underText": "",
+            "actions": [
+              {"test": "good"}
+            ],
+            "next": 1
+          },
+          {
+            "topText": "Go south",
+            "underText": "",
+            "actions": [
+              {"test": "good"}
+            ],
+            "next": 1
+          },
+          {
+            "topText": "Go back inside",
+            "underText": "It's cold outside. Better in.",
+            "actions": [
+              {"test": "good"}
+            ],
+            "next": 0
+          }
+        ]
+      },
+      {
+        "title": "On the hill",
+        "description": "As you march your way into the far north, you go up on a hill.\nThe view from the top is amazing, you see that the only thing forward is a long river.\nIt looks a bit rough to cross.",
+        "choices": [
+          {
+            "topText": "Go back",
+            "underText": "It's might be a good idea, thers no way you can cross that river",
+            "actions": [],
+            "next": 1
+          },
+          {
+            "topText": "Go to the river",
+            "underText": "",
+            "actions": [],
+            "next": 2
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -4,49 +4,64 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  View
+  View,
+  ActivityIndicator,
+  ListView
 } from 'react-native';
 
-import Button from 'react-native-button';
-import { MKButton } from 'react-native-material-kit';
-
-// colored button with default theme (configurable)
-const ColoredRaisedButton = MKButton.coloredButton()
-  .withText('BUTTON')
-  .withOnPress(() => {
-    console.log("Hi, it's a colored button!");
-  })
-  .build();
-
-var customData = require('../story/chapter0.json');
+import Story from '../logic/story';
+import ChoiceButton from '../components/choiceButton';
 
 class Home extends Component {
+
   constructor(props) {
     super(props);
+    var whenLoaded = () => {
+      this.setState({
+        currChoices: this.state.currChoices.cloneWithRows(
+          this.state.myStory.chapter.events[this.state.myStory.event].choices),
+        loaded: true
+      });
+    };
+    story = new Story("mainStory", whenLoaded.bind(this));
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.state = {
+      myStory: story,
+      currChoices: ds.cloneWithRows([]),
+      loaded: false
+    };
   }
 
   render() {
     return (
       <View style={styles.main_view}>
-        <Text>
-          {customData[1].header}
-        </Text>
-        <ColoredRaisedButton />
-        <Button
-          style={styles.choice_button}
-          onPress={() => {}}>
-          Press Me!
-        </Button>
-        <Button
-          style={styles.choice_button}
-          onPress={() => {}}>
-          Press Me!
-        </Button>
-        <Button
-          style={styles.choice_button}
-          onPress={() => {}}>
-          Press Me!
-        </Button>
+        {
+          (this.state && this.state.loaded) ?
+          <Text style={styles.title}>{this.state.myStory.chapter
+                .events[this.state.myStory.event]
+                .title}</Text> : <ActivityIndicator/>
+        }
+        {
+          (this.state && this.state.loaded) ?
+          <Text style={styles.description}>{this.state.myStory.chapter
+                .events[this.state.myStory.event]
+                .description}</Text> : <ActivityIndicator/>
+        }
+        {(this.state && this.state.loaded) ?
+          <ListView
+            style={styles.list_view}
+            dataSource={this.state.currChoices}
+            enableEmptySections={true}
+            renderRow={(data) =>
+              <ChoiceButton choice={data} story={this.state.myStory}/>
+            }
+          />
+          : <ActivityIndicator/>
+        }
+        {
+          (this.state && this.state.loaded) ?
+          <Text>{this.state.myStory.event}</Text> : <ActivityIndicator/>
+        }
       </View>
     );
   }
@@ -56,17 +71,19 @@ const styles = StyleSheet.create({
   main_view: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#dedede',
     paddingBottom: 50,
+    paddingTop: 70,
   },
-  choice_button: {
-    width: 200,
-    height: 100,
-    backgroundColor: 'blue',
-    borderRadius:4,
-    overflow:'hidden',
+  list_view: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 47,
+  },
+  description: {
+    fontSize: 34
   }
 });
 

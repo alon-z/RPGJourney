@@ -1,6 +1,6 @@
 [{
   "name": "To the end",
-  "chapters": 1,
+  "chapters": 0,
   "chaperPrefix": "chaper", "_comment": "chapterPrefix+cahpterNumber = fileName",
   "prolog": true, "_comment": ["In prolog, there is no character, it's good",
                               "for gatharing information on the player's   ",

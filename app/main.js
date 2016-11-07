@@ -5,7 +5,7 @@ import {
   StyleSheet
 } from 'react-native';
 
-import { Router, Scene } from 'react-native-router-flux';
+import { Router, Scene, Actions, ActionConst } from 'react-native-router-flux';
 
 import Home from './pages/home';
 import Page2 from '../page2';
@@ -25,7 +25,10 @@ const Main = () => {
           tabs={true}
           tabBarStyle={styles.tabBarStyle}
         >
-          <Scene key="hometabs" title="Home" icon={TabIcon}>
+          <Scene key="hometabs" title="Home" icon={TabIcon}
+            onPress={()=> {
+              Actions.homepage({type: ActionConst.REFRESH});
+            }}>
             <Scene
               key="homepage"
               component={Home}
