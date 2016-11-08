@@ -27,9 +27,9 @@
           {
             "topText": "Kick the door",
             "underText": "",
-            "actions": [
-              {"test": "good"}
-            ],
+            "actions": {
+              "test": "good"
+            },
             "next": 1
           }
         ]

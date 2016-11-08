@@ -16,7 +16,7 @@ class Story {
   }
 
   fetch(jsonUrl,func) {
-    fetch('http://10.0.0.136:8080/'+jsonUrl).then((resault) => resault.json())
+    fetch('http://192.168.43.105:8080/'+jsonUrl).then((resault) => resault.json())
     .then((data) => {
       func(data[0])
     }).catch((error) => {
@@ -46,15 +46,17 @@ class Story {
     })
   }
 
-  choose(choice) {
+  choose(choice, player) {
     choice.actions.forEach((action) => {
-        switch (action) {
-          case 'test':
-            //Do something - example
-            break;
-          default:
-            break;
-        }
+      actionName = Object.keys(action)[0];
+      switch (actionName) {
+        case 'test':
+          alert('test resault: ' + action[actionName]);
+          break;
+        default:
+          player[actionName] = action[actionName];
+          break;
+      }
     });
     this.event = choice.next;
     this.whenLoaded();
