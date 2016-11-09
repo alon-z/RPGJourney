@@ -13,22 +13,34 @@ import {
 
 import Story from '../logic/story';
 import ChoiceButton from '../components/choiceButton';
+import { Actions, ActionConst } from 'react-native-router-flux';
 
 class Home extends Component {
 
   constructor(props) {
     super(props);
-    var whenLoaded = () => {
-      this.setState({
-        currChoices: this.state.currChoices.cloneWithRows(
-          this.state.myStory.chapter.events[this.state.myStory.event].choices),
-        loaded: true
+
+    if (global.story == undefined) {
+      storage.load({
+        key: 'story',
+        autoSync: false,
+        syncInBackground: true
+      }).then(ret => {
+        global.story = new Story(ret, this);
+        Actions.homepage({type: ActionConst.REFRESH});
+      }).catch(err => {
+        if(err.name == 'NotFoundError') {
+          story = new Story("mainStory", this);
+          global.story = story;
+          Actions.homepage({type: ActionConst.REFRESH});
+        } else {
+          alert(err.message);
+        }
       });
-    };
-    story = new Story("mainStory", whenLoaded.bind(this));
+    }
+
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      myStory: story,
       currChoices: ds.cloneWithRows([]),
       loaded: false
     };
@@ -39,38 +51,31 @@ class Home extends Component {
     return (
       <Image source={require('../assets/wood_background.png')} style={styles.backgroundImage}>
       <View style={styles.main_view}>
-        <ScrollView style={styles.event_text}
-         contentContainerStyle={{alignItems: 'center'}}
-        ref={(scrollView) => { _scrollView = scrollView; }}
-        onContentSizeChange={() => {_scrollView.scrollTo({y: 0,animated: false})}}>
-          {
-            (this.state && this.state.loaded) ?
-            <Text style={styles.title}>{this.state.myStory.chapter
-                  .events[this.state.myStory.event]
-                  .title}</Text> : <ActivityIndicator/>
-          }
-          {
-            (this.state && this.state.loaded) ?
-            <Text style={styles.description}>{this.state.myStory.chapter
-                  .events[this.state.myStory.event]
-                  .description}</Text> : <ActivityIndicator/>
-          }
-        </ScrollView>
-        {(this.state && this.state.loaded) ?
+        {
+          (global.story && global.story.chapter) ?
+          <ScrollView style={styles.event_text}
+           contentContainerStyle={{alignItems: 'center'}}
+           ref={(scrollView) => { _scrollView = scrollView; }}
+           onContentSizeChange={() => {_scrollView.scrollTo({y: 0,animated: false})}}>
+            <Text style={styles.title}>{global.story.chapter
+                  .events[global.story.event]
+                  .title}</Text>
+            <Text style={styles.description}>{global.story.chapter
+                  .events[global.story.event]
+                  .description}</Text>
+          </ScrollView>
+          : <ActivityIndicator/>
+        }
+        {(global.story && global.story.chapter) ?
           <ListView
             style={styles.list_view}
             dataSource={this.state.currChoices}
             enableEmptySections={true}
             renderRow={(data) =>
-              <ChoiceButton choice={data} story={this.state.myStory}/>
+              <ChoiceButton choice={data} story={global.story}/>
             }
           />
-          : <ActivityIndicator/>
-        }
-        {
-          (this.state && this.state.loaded) ?
-          <Text>{this.state.myStory.event}</Text> : <ActivityIndicator/>
-        }
+         : <ActivityIndicator/> }
       </View>
       </Image>
     );

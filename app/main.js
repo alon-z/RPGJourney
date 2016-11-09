@@ -2,13 +2,27 @@ import React from 'react';
 import {
   Text,
   View,
-  StyleSheet
+  StyleSheet,
+  AsyncStorage
 } from 'react-native';
 
 import { Router, Scene, Actions, ActionConst } from 'react-native-router-flux';
+import Storage from 'react-native-storage';
 
 import Home from './pages/home';
 import Page2 from '../page2';
+
+var storage = new Storage({
+    size: 1000,
+    storageBackend: AsyncStorage,
+    defaultExpires: null,
+    enableCache: true,
+    sync : {
+        //alert('No data found, creating new.'');
+    }
+})
+
+global.storage = storage;
 
 const TabIcon = ({ selected, title }) => {
   return (

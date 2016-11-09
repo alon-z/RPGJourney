@@ -4,7 +4,8 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  View
+  View,
+  TouchableHighlight
 } from 'react-native';
 
 const Page2 = () => {
@@ -16,6 +17,44 @@ const Page2 = () => {
         Page 2!!!
         A totaly different page.
       </Text>
+      <TouchableHighlight
+        style={styles.button}
+        underlayColor='#e6ce99'
+        onPress={() => {
+          global.storage.remove({
+            key: 'story'
+          })
+        }
+        }>
+        <Text style={styles.buttonText}>Delete story</Text>
+      </TouchableHighlight>
+      <TouchableHighlight
+        style={styles.button}
+        underlayColor='#e6ce99'
+        onPress={() => {
+          homePage = global.story.homePage;
+          global.story.homePage = null;
+          global.storage.save({
+            key: 'story',
+            rawData: global.story,
+            expires: null
+          }).catch(err => {
+            alert(err.message);
+          });
+          global.story.homePage = homePage;
+        }
+        }>
+        <Text style={styles.buttonText}>Save story</Text>
+      </TouchableHighlight>
+      <TouchableHighlight
+        style={styles.button}
+        underlayColor='#e6ce99'
+        onPress={() => {
+          global.story.reloadStory();
+        }
+        }>
+        <Text style={styles.buttonText}>Reload story</Text>
+      </TouchableHighlight>
     </View>
   );
 }
@@ -33,6 +72,12 @@ const styles = StyleSheet.create({
     margin: 10,
     color: '#ffffff',
   },
+  button: {
+    padding: 5,
+  },
+  buttonText: {
+    fontSize: 30
+  }
 });
 
 export default Page2;
